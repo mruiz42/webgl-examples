@@ -10,10 +10,11 @@
     // Get the interface to the canvas.
     let canvas = document.querySelector("canvas");
     let gl = canvas.getContext("webgl");
-    // uncomment for 16:9
+    // added 16:9 resize routine/hooks (Michael)
     var autoResize = function() {
         canvas.width = window.innerWidth - 18; // minus 18 bcoz border?
-        var scaledHeight = window.innerWidth / (16 / 9) - 18;
+        var scaledHeight = window.innerWidth / (16/9) - 18;
+        var scaledWidth = window.innerHeight / (16/9) - 18;
         // set canvas.height and its boundary
         if (scaledHeight > window.innerHeight) {
             canvas.height = window.innerHeight - 18; // minus 18 because border?
@@ -21,6 +22,10 @@
         else {
             canvas.height = scaledHeight;
         }
+        if (scaledWidth > window.innerWidth) {
+            canvas.width = window.innerWidth - 18;
+        }
+        console.log("X=",canvas.width,",Y=",canvas.height)
     }
     autoResize();
     var f = function() {
