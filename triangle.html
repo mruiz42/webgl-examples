@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<title>Triangle</title>
+<style>
+    canvas {
+        border: 1px solid;
+    }
+</style>
+<canvas width="400" height="400"></canvas>
+<script defer>
+    /**
+     * Importing WebGL.
+     */
+         
+    // I define the canvas to be 400 by 400 pixels.
+    let canvas = document.querySelector("canvas");
+    
+    // I get an interface to the canvas.
+    let gl = canvas.getContext("webgl");
+    
+    
+    
+    
+    
+    /**
+     * Defining the vertex and fragment shaders.
+     */
+    
+    // I define the vertex shader.
+    let vertexShaderSource = `
+        attribute vec4 triangleVertexPosition;
+
+        void main() {
+            gl_Position = triangleVertexPosition;
+        }
+    `;
+    
+    // I define the fragment shader.
+    let fragmentShaderSource = `        
+        void main() {
+            gl_FragColor = vec4(0.0, 1.0, 0.0, 1.0);
+        }
+    `;
+    
+    
+    
+    
+    
+    /**
+     * Compile the program.
+     */
+    
+    // I compile the vertex shader.
+    let vertexShader = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vertexShader, vertexShaderSource);
+    gl.compileShader(vertexShader);
+    
+    // I compile the fragment shader.
+    let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fragmentShader, fragmentShaderSource);
+    gl.compileShader(fragmentShader);
+    
+    // I make a WebGL program using my vertex and fragment shaders.
+    let triangleProgram = gl.createProgram();
+    gl.attachShader(triangleProgram, vertexShader);
+    gl.attachShader(triangleProgram, fragmentShader);
+    gl.linkProgram(triangleProgram);
+    
+    
+    
+    
+    
+    /**
+     * Load the data into memory.
+     */
+    
+    // I store the positions of the vertices of my triangle in `positionBuffer`.
+    let positions = new Float32Array([-1, -1, 0, 1, -1, 1, 0, 1, 1, -1, 0, 1]);
+    let positionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+    
+    
+    
+    
+    
+    /**
+     * Clear the screen.
+     */
+     
+    // I clear the screen.
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    
+    
+    
+    
+    /**
+     * Tell the program where the data is.
+     */
+     
+    // The following three statements tell the program to load
+    // `triangleVertexPosition` in the vertex shader from `positionBuffer`,
+    // take four floats at a time. Don't worry about the last three arguments
+    // of vertexAttribPointer. Here, they should just be false, 0, 0.
+    let triangleVertexPosition = gl.getAttribLocation(triangleProgram,
+    'triangleVertexPosition');
+    
+    gl.vertexAttribPointer(triangleVertexPosition, 4, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(triangleVertexPosition);
+    
+    
+    
+    
+    
+    /**
+     * Run the program.
+     */
+    
+    // I run the program, telling WebGL to make triangles out of the vertices
+    // and that there are three vertices. Don't worry about the second argument
+    // of drawArrays. Here, it should just be 0.
+    gl.useProgram(triangleProgram);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+</script>
