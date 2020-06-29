@@ -11,8 +11,27 @@
     let canvas = document.querySelector("canvas");
     let gl = canvas.getContext("webgl");
     // uncomment for 16:9
-    // canvas.width = window.innerWidth;
-    // canvas.height = window.innerWidth / (16/9);
+    var autoResize = function() {
+        canvas.width = window.innerWidth - 18; // minus 18 bcoz border?
+        var scaledHeight = window.innerWidth / (16 / 9) - 18;
+        // set canvas.height and its boundary
+        if (scaledHeight > window.innerHeight) {
+            canvas.height = window.innerHeight - 18; // minus 18 because border?
+        }
+        else {
+            canvas.height = scaledHeight;
+        }
+    }
+    autoResize();
+    var f = function() {
+        var eventHandler = function (event) {
+        autoResize();
+        };
+        window.addEventListener('resize',eventHandler,false);
+    };
+    document.addEventListener('DOMContentLoaded',f,false);
+    // end 16:9
+
 
 
 
