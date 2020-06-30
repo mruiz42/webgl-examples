@@ -59,7 +59,7 @@
         void main() {
             outVertexColor = inVertexColor;
             
-            gl_Position = vec4(inVertexPosition.x, inVertexPosition.z,
+            gl_Position = vec4(inVertexPosition.x, -inVertexPosition.z,
             inVertexPosition.y, inVertexPosition.w);
         }
     `;
