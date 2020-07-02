@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<title>Contexts</title>
+<style>
+    canvas {
+        border: 1px solid;
+    }
+</style>
+
+
+
+
+<canvas width="400" height="400"></canvas>
+<script defer>
+    // A context gives us an interface to draw on a canvas. Here, I use the
+    // interface from https://developer.mozilla.org/en-US/docs/Web/API/
+    // CanvasRenderingContext2D.
+    let canvas = document.querySelector("canvas");
+    let context = canvas.getContext("2d");
+    context.strokeRect(50, 50, 300, 300);
+</script>
